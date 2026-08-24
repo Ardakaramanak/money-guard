@@ -1,0 +1,97 @@
+.editTransactionForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: left;
+}
+
+.formField label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #000000;
+}
+
+.formField input,
+.formField textarea {
+  padding: 10px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  color: #333333;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.formField input:focus,
+.formField textarea:focus {
+  border-color: #24cca7;
+}
+
+.formField input[type="number"]::-webkit-outer-spin-button,
+.formField input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.formField input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.formField textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+
+.formActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+  width: 100%;
+}
+
+.saveBtn,
+.cancelBtn {
+  padding: 13px;
+  border: none;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.saveBtn {
+  background-color: #24cca7;
+  color: #ffffff;
+  box-shadow: 0px 6px 15px rgba(36, 204, 167, 0.2);
+}
+
+.saveBtn:hover {
+  background-color: #1eb393;
+  transform: translateY(-1px);
+}
+
+.cancelBtn {
+  background-color: transparent;
+  color: #4a56e2;
+  border: 1px solid #4a56e2;
+}
+
+.cancelBtn:hover {
+  background-color: rgba(74, 86, 226, 0.05);
+  transform: translateY(-1px);
+}

@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../../services/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // Not: Axios baseURL projenin ana index.js veya auth dosyasında
@@ -9,7 +9,7 @@ export const fetchTransactions = createAsyncThunk(
   "transactions/fetchAll",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get("/transactions");
+      const response = await api.get("/transactions");
       return response.data; // Backend'den dönen transaksiyon dizisi
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -30,7 +30,7 @@ export const addTransaction = createAsyncThunk(
         type: "INCOME",
         ...transactionData,
       };
-      const response = await axios.post("/transactions", finalPayload);
+      const response = await api.post("/transactions", finalPayload);
       return response.data; // Yeni eklenen işlem objesi
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -45,7 +45,7 @@ export const deleteTransaction = createAsyncThunk(
   "transactions/delete",
   async (transactionId, thunkAPI) => {
     try {
-      await axios.delete(`/transactions/${transactionId}`);
+      await api.delete(`/transactions/${transactionId}`);
       return transactionId; // Reducer'da state'ten silmek için id'yi dönüyoruz
     } catch (error) {
       return thunkAPI.rejectWithValue(
@@ -60,7 +60,7 @@ export const fetchTransactionSummary = createAsyncThunk(
   "transactions/fetchSummary",
   async ({ month, year }, thunkAPI) => {
     try {
-      const response = await axios.get(`/transactions-summary`, {
+      const response = await api.get(`/transactions-summary`, {
         params: { month, year },
       });
       return response.data; // Kategorilere göre harcama özetleri
@@ -79,7 +79,7 @@ export const updateTransaction = createAsyncThunk(
   async ({ transactionId, updateData }, thunkAPI) => {
     try {
       // Wallet API standartlarına göre güncelleme PATCH metodu ile yapılır
-      const response = await axios.patch(
+      const response = await api.patch(
         `/transactions/${transactionId}`,
         updateData,
       );

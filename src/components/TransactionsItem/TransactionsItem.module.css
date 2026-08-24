@@ -1,0 +1,120 @@
+/* Masaüstü Satır Ayarları */
+.desktopRow {
+  display: table-row;
+}
+
+.desktopRow td {
+  padding: 14px 20px;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+/* Masaüstü Düzenle Butonu (Kalem Simgesi) */
+.editIconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #4a56e2;
+  padding: 6px 10px;
+  transition: opacity 0.2s ease;
+}
+.editIconBtn:hover {
+  opacity: 0.7;
+}
+
+/* Masaüstü Silme Butonu */
+.deleteBtn {
+  background-color: #ff4d4f;
+  color: #ffffff;
+  border: none;
+  border-radius: 18px;
+  padding: 6px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.deleteBtn:hover {
+  background-color: #d9363e;
+}
+
+/* ==========================================================================
+   MOBİL TASARIM (767px ve Altı Ekranlar)
+   ========================================================================== */
+@media screen and (max-width: 767px) {
+  .desktopRow {
+    display: none; /* Masaüstü satırını mobilde gizle */
+  }
+
+  /* Mobil Kart Kutusu */
+  .mobileCard {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-left: 5px solid transparent; /* Renk şeridi tabanı */
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  /* İstek Maddesindeki Özel Renk Vurguları */
+  .mobileCard.incomeBorder {
+    border-left-color: #ff9800; /* Gelir için Turuncu şerit */
+  }
+  .mobileCard.expenseBorder {
+    border-left-color: #ff6b6b; /* Gider için Mercan şerit */
+  }
+
+  /* Kart Satırları */
+  .cardLine {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 6px;
+  }
+  .cardLine span:first-child {
+    color: #000000;
+  }
+  .cardLine:last-of-type {
+    border-bottom: none;
+  }
+
+  /* Mobil Buton Alanı */
+  .cardActionsRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    padding-top: 8px;
+  }
+
+  .editIconBtnMobile {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    color: #4a56e2;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+  }
+
+  .deleteBtnMobile {
+    background-color: #ff4d4f;
+    color: #ffffff;
+    border: none;
+    border-radius: 18px;
+    padding: 6px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+}
