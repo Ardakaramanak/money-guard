@@ -5,7 +5,7 @@ import {
   deleteTransaction,
   fetchTransactionSummary,
   updateTransaction,
-} from "./transactionsOps";
+} from "./operations.js";
 
 const initialState = {
   items: [], // Tüm transaksiyon listesi
