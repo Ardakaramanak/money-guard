@@ -7,7 +7,7 @@ import {
   selectTransactionsError,
 } from "../../redux/transactions/selectors";
 import { TransactionsItem } from "../TransactionsItem/TransactionsItem";
-import css from "./TransactionsList.module.css"; // CSS Modülü içeri aktarıldı
+import css from "./TransactionsList.module.css";
 
 export const TransactionsList = () => {
   const dispatch = useDispatch();
@@ -20,13 +20,10 @@ export const TransactionsList = () => {
     dispatch(fetchTransactions());
   }, [dispatch]);
 
-  if (isLoading) {
+  if (isLoading)
     return <p className={css.transactionsLoading}>İşlemler yükleniyor...</p>;
-  }
-
-  if (error) {
+  if (error)
     return <p className={css.transactionsError}>Hata oluştu: {error}</p>;
-  }
 
   if (!transactions || transactions.length === 0) {
     return (
@@ -38,7 +35,7 @@ export const TransactionsList = () => {
 
   return (
     <div className={css.transactionsListContainer}>
-      {/* MASAÜSTÜ VE TABLET TABLOSU */}
+      {/* 1. MASAÜSTÜ VE TABLET TABLOSU (Sadece <tr> içerir, güvende) */}
       <table className={css.transactionsTable}>
         <thead>
           <tr>
@@ -53,15 +50,23 @@ export const TransactionsList = () => {
         </thead>
         <tbody>
           {transactions.map((transaction) => (
-            <TransactionsItem key={transaction.id} transaction={transaction} />
+            <TransactionsItem
+              key={transaction.id}
+              transaction={transaction}
+              viewType="desktop" // Sadece masaüstü satırını basmasını söylüyoruz
+            />
           ))}
         </tbody>
       </table>
 
-      {/* MOBİL KART LİSTESİ */}
+      {/* 2. MOBİL KART LİSTESİ (Tablo dışında bağımsız bir div alanı) */}
       <div className={css.transactionsMobileWrapper}>
         {transactions.map((transaction) => (
-          <TransactionsItem key={transaction.id} transaction={transaction} />
+          <TransactionsItem
+            key={transaction.id}
+            transaction={transaction}
+            viewType="mobile" // Sadece mobil kartı basmasını söylüyoruz
+          />
         ))}
       </div>
     </div>

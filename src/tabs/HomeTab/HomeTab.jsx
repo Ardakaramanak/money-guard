@@ -9,9 +9,8 @@ import {
   selectFinanceError,
   selectFinanceLoading,
 } from "../../redux/finance/selectors";
-
-import { fetchTransactions as fetchMyTransactions } from "../../redux/transactions/operations";
 import { TransactionsList } from "../../components/TransactionsList/TransactionsList";
+import { ButtonAddTransactions } from "../../components/ButtonAddTransactions/ButtonAddTransactions";
 
 const HomeTab = () => {
   const dispatch = useDispatch();
@@ -32,8 +31,12 @@ const HomeTab = () => {
   }
 
   return (
-    <section>
+    <section style={{ position: "relative", minHeight: "100%" }}>
+      {/* Mevcut işlem tablonuz */}
       <TransactionsList />
+
+      {/* 2. Sağ alt köşede duracak olan buton bileşenimiz */}
+      <ButtonAddTransactions />
     </section>
   );
 };

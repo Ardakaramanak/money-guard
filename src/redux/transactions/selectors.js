@@ -37,10 +37,9 @@ export const selectTotalBalance = createSelector(
   (transactions) => {
     if (!Array.isArray(transactions)) return 0;
 
+    // Giderler zaten negatif (-) geldiği için sadece düz toplama yapıyoruz
     return transactions.reduce((total, tx) => {
-      return tx?.type === "INCOME"
-        ? total + (tx?.amount || 0)
-        : total - (tx?.amount || 0);
+      return total + (tx?.amount || 0);
     }, 0);
   },
 );
