@@ -76,17 +76,16 @@ export const fetchTransactionSummary = createAsyncThunk(
 // argüman yapısı: { transactionId: "123", updateData: { amount: 500, comment: "Yeni açıklama" } }
 export const updateTransaction = createAsyncThunk(
   "transactions/update",
-  async ({ transactionId, updateData }, thunkAPI) => {
+  async (updatedData, thunkAPI) => {
     try {
-      // Wallet API standartlarına göre güncelleme PATCH metodu ile yapılır
-      const response = await api.patch(
-        `/transactions/${transactionId}`,
-        updateData,
-      );
-      return response.data; // Backend'den dönen güncellenmiş transaksiyon objesi
+      // URL'e işlem ID'sini koyuyoruz, body'e ise sadece güncellenecek alanları gönderiyoruz
+      const { id, ...bodyData } = updatedData;
+
+      const response = await api.patch(`/transactions/${id}`, bodyData);
+      return response.data; // Güncellenmiş yeni nesne döner
     } catch (error) {
       return thunkAPI.rejectWithValue(
-        error.response?.data?.message || "İşlem güncellenemedi.",
+        error.response?.data?.message || "Güncelleme yapılamadı.",
       );
     }
   },
