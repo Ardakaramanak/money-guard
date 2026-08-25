@@ -10,6 +10,9 @@ import {
   selectFinanceLoading,
 } from "../../redux/finance/selectors";
 
+import { fetchTransactions as fetchMyTransactions } from "../../redux/transactions/operations";
+import { TransactionsList } from "../../components/TransactionsList/TransactionsList";
+
 const HomeTab = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectFinanceLoading);
@@ -28,7 +31,11 @@ const HomeTab = () => {
     return <p>{error}</p>;
   }
 
-  return <section />;
+  return (
+    <section>
+      <TransactionsList />
+    </section>
+  );
 };
 
 export default HomeTab;

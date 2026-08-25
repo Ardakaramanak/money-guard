@@ -1,0 +1,86 @@
+/* Konteyner ve Kaydırma Çubuğu Ayarları */
+.transactionsListContainer {
+  max-height: 400px; /* İçerik taşarsa dikey kaydırma çubuğu çıkar */
+  overflow-y: auto;
+  width: 100%;
+  scrollbar-width: thin;
+}
+
+/* Scrollbar Tasarımı */
+.transactionsListContainer::-webkit-scrollbar {
+  width: 6px;
+}
+.transactionsListContainer::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+}
+.transactionsListContainer::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
+
+/* Yer Tutucu ve Durum Mesajları */
+.transactionsPlaceholder {
+  padding: 60px 20px;
+  text-align: center;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.transactionsPlaceholder p {
+  font-size: 16px;
+  color: #bdbdbd;
+  font-weight: 500;
+  margin: 0;
+}
+
+.transactionsLoading,
+.transactionsError {
+  text-align: center;
+  font-size: 15px;
+  padding: 20px;
+  font-weight: 500;
+}
+
+.transactionsError {
+  color: #ff4d4f;
+}
+
+/* Masaüstü Tablo Tasarımı */
+.transactionsTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  display: table;
+}
+
+.transactionsTable th {
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  border-bottom: 2px solid #f2f5fc;
+  background-color: transparent;
+}
+
+/* Mobil Listeyi Masaüstünde Gizle */
+.transactionsMobileWrapper {
+  display: none;
+}
+
+/* Mobil Ekran Kuralları (767px ve altı) */
+@media screen and (max-width: 767px) {
+  .transactionsTable {
+    display: none;
+  }
+
+  .transactionsMobileWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 4px;
+  }
+}
