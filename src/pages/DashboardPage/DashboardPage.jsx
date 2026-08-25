@@ -6,6 +6,7 @@ import Balance from "../../components/Balance/Balance";
 import Currency from "../../components/Currency/Currency";
 
 import HomeTab from "../../tabs/HomeTab/HomeTab";
+import StatisticsTab from "../../tabs/StatisticsTab/StatisticsTab";
 
 import css from "./DashboardPage.module.css";
 
@@ -25,6 +26,7 @@ const DashboardPage = () => {
           <Routes>
             <Route index element={<Navigate to="home" replace />} />
             <Route path="home" element={<HomeTab />} />
+            <Route path="statistics" element={<StatisticsTab />} />
           </Routes>
         </section>
       </main>

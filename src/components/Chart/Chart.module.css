@@ -1,0 +1,53 @@
+.chartWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart {
+    position: relative;
+    width: 320px;
+    height: 320px;
+}
+
+.center {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    pointer-events: none;
+
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.currency {
+    margin-right: 4px;
+}
+
+.total {
+    font-weight: 600;
+}
+
+@media screen and (max-width: 1023px) {
+    .chart {
+        width: 280px;
+        height: 280px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .chart {
+        width: 250px;
+        height: 250px;
+    }
+
+    .center {
+        font-size: 13px;
+    }
+}
