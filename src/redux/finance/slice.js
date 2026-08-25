@@ -8,7 +8,6 @@ import {
 const initialState = {
   transactions: [],
   categories: [],
-  totalBalance: 0,
   isLoading: false,
   error: null,
 };
@@ -27,11 +26,6 @@ const financeSlice = createSlice({
       .addCase(fetchTransactions.fulfilled, (state, action) => {
         state.isLoading = false;
         state.transactions = action.payload;
-
-        if (action.payload.length > 0) {
-          state.totalBalance =
-            action.payload[action.payload.length - 1].balanceAfter;
-        }
       })
       .addCase(fetchTransactions.rejected, (state, action) => {
         state.isLoading = false;

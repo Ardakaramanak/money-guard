@@ -1,0 +1,147 @@
+.table {
+    width: 100%;
+    color: #ffffff;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 42px;
+    padding: 0 16px;
+
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.rows {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    min-height: 38px;
+    padding: 6px 16px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    font-size: 12px;
+}
+
+.category {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 0;
+}
+
+.categoryMarker {
+    width: 10px;
+    height: 10px;
+    flex: 0 0 10px;
+
+    border-radius: 2px;
+    background: #ffd45c;
+}
+
+.row:nth-child(2) .categoryMarker {
+    background: #f8d5cc;
+}
+
+.row:nth-child(3) .categoryMarker {
+    background: #ff8b8b;
+}
+
+.row:nth-child(4) .categoryMarker {
+    background: #b8a9ff;
+}
+
+.row:nth-child(5) .categoryMarker {
+    background: #6675e8;
+}
+
+.row:nth-child(6) .categoryMarker {
+    background: #4169e1;
+}
+
+.row:nth-child(7) .categoryMarker {
+    background: #56d5ed;
+}
+
+.row:nth-child(8) .categoryMarker {
+    background: #21c9a8;
+}
+
+.row:nth-child(9) .categoryMarker {
+    background: #00b879;
+}
+
+.amount {
+    flex-shrink: 0;
+    margin-left: 16px;
+    font-size: 12px;
+}
+
+.totals {
+    margin-top: 18px;
+    padding-top: 8px;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    min-height: 32px;
+
+    font-size: 12px;
+}
+
+.expenses {
+    color: #ff868d;
+}
+
+.income {
+    color: #4be1a0;
+}
+
+@media screen and (max-width: 767px) {
+    .header {
+        height: 40px;
+        padding: 0 12px;
+        font-size: 12px;
+    }
+
+    .row {
+        min-height: 36px;
+        padding: 6px 12px;
+        font-size: 11px;
+    }
+
+    .category {
+        gap: 8px;
+    }
+
+    .categoryMarker {
+        width: 8px;
+        height: 8px;
+        flex-basis: 8px;
+    }
+
+    .amount {
+        font-size: 11px;
+    }
+
+    .totalRow {
+        font-size: 11px;
+    }
+}
