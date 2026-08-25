@@ -13,6 +13,7 @@ import {
 import authReducer from "./auth/slice";
 import currencyReducer from "./currency/slice";
 import financeReducer from "./finance/slice";
+import { transactionsReducer } from "./transactions/slice";
 
 const storage = {
   getItem: (key) => Promise.resolve(localStorage.getItem(key)),
@@ -34,29 +35,20 @@ const authPersistConfig = {
   whitelist: ["token"],
 };
 
-const persistedAuthReducer = persistReducer(
-  authPersistConfig,
-  authReducer,
-);
+const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
     auth: persistedAuthReducer,
     finance: financeReducer,
     currency: currencyReducer,
+    transactions: transactionsReducer,
   },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [
-          FLUSH,
-          REHYDRATE,
-          PAUSE,
-          PERSIST,
-          PURGE,
-          REGISTER,
-        ],
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 });
