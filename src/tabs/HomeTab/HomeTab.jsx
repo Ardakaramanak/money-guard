@@ -1,21 +1,22 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { fetchTransactions } from "../../redux/transactions/operations";
 import {
-  fetchTransactionCategories,
-  fetchTransactions,
-} from "../../redux/finance/operations";
-import {
-  selectFinanceError,
-  selectFinanceLoading,
-} from "../../redux/finance/selectors";
+  selectTransactionsError,
+  selectTransactionsLoading,
+} from "../../redux/transactions/selectors";
+
+import { fetchTransactionCategories } from "../../redux/finance/operations";
+
 import { TransactionsList } from "../../components/TransactionsList/TransactionsList";
 import { ButtonAddTransactions } from "../../components/ButtonAddTransactions/ButtonAddTransactions";
 
 const HomeTab = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(selectFinanceLoading);
-  const error = useSelector(selectFinanceError);
+
+  const isLoading = useSelector(selectTransactionsLoading);
+  const error = useSelector(selectTransactionsError);
 
   useEffect(() => {
     dispatch(fetchTransactions());
@@ -32,10 +33,7 @@ const HomeTab = () => {
 
   return (
     <section style={{ position: "relative", minHeight: "100%" }}>
-      {/* Mevcut işlem tablonuz */}
       <TransactionsList />
-
-      {/* 2. Sağ alt köşede duracak olan buton bileşenimiz */}
       <ButtonAddTransactions />
     </section>
   );
