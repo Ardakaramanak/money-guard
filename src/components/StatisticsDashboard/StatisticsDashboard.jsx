@@ -1,10 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { fetchTransactionSummary } from '../../redux/transactions/operations';
 import { selectTransactionsSummary } from '../../redux/transactions/selectors';
+
 import Chart from '../Chart/Chart';
 import StatisticsTable from '../StatisticsTable/StatisticsTable';
+
 import css from './StatisticsDashboard.module.css';
+
+const CURRENT_YEAR = new Date().getFullYear();
 
 const MONTHS = [
   'January',
@@ -25,10 +30,8 @@ const StatisticsDashboard = () => {
   const dispatch = useDispatch();
   const summary = useSelector(selectTransactionsSummary);
 
-  const currentDate = new Date();
-  const [month, setMonth] = useState(currentDate.getMonth() + 1);
-  const [year, setYear] = useState(currentDate.getFullYear());
-
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(CURRENT_YEAR);
   const [openDropdown, setOpenDropdown] = useState(null);
 
   useEffect(() => {
@@ -48,14 +51,10 @@ const StatisticsDashboard = () => {
     };
   }, [summary]);
 
-  const years = useMemo(() => {
-    const currentYear = currentDate.getFullYear();
-
-    return Array.from(
-      { length: 5 },
-      (_, index) => currentYear - index
-    );
-  }, [currentDate]);
+  const years = Array.from(
+    { length: 5 },
+    (_, index) => CURRENT_YEAR - index
+  );
 
   const selectedMonth = MONTHS[month - 1];
 
@@ -84,12 +83,13 @@ const StatisticsDashboard = () => {
                   }
                 >
                   <span>{selectedMonth}</span>
+
                   <span
                     className={`${css.arrow} ${
                       openDropdown === 'month' ? css.arrowOpen : ''
                     }`}
                   >
-                   ⌄
+                    ⌄
                   </span>
                 </button>
 
@@ -131,12 +131,13 @@ const StatisticsDashboard = () => {
                   }
                 >
                   <span>{year}</span>
+
                   <span
                     className={`${css.arrow} ${
                       openDropdown === 'year' ? css.arrowOpen : ''
                     }`}
                   >
-                   ⌄
+                    ⌄
                   </span>
                 </button>
 
