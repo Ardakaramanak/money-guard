@@ -1,20 +1,19 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-// Kendi transactions operations dosyanızdaki addTransaction thunk'ı
 import { addTransaction } from "../../redux/transactions/operations";
-import css from "./AddTransactionForm.module.css";
-
 import { selectCategories } from "../../redux/finance/selectors";
 
-// Yup Doğrulama Şeması (Validation Schema)
+import css from "./AddTransactionForm.module.css";
+
 const validationSchema = Yup.object().shape({
   type: Yup.string().required(),
+
   amount: Yup.number()
     .transform((value, originalValue) =>
       originalValue === "" ? undefined : value,
@@ -22,10 +21,13 @@ const validationSchema = Yup.object().shape({
     .typeError("Tutar bir sayı olmalıdır")
     .positive("Tutar 0'dan büyük olmalıdır")
     .required("Tutar alanı zorunludur"),
+
   transactionDate: Yup.date()
     .typeError("Geçerli bir tarih seçiniz")
     .required("Tarih alanı zorunludur"),
+
   comment: Yup.string().required("Yorum alanı zorunludur"),
+
   categoryId: Yup.string().when("type", {
     is: "EXPENSE",
     then: () =>
@@ -38,9 +40,8 @@ const validationSchema = Yup.object().shape({
 
 export const AddTransactionForm = ({ onClose }) => {
   const dispatch = useDispatch();
-  const [isExpense, setIsExpense] = useState(false); // Varsayılan: Income (false)
+  const [isExpense, setIsExpense] = useState(false);
 
-  // 2. Redux'ta duran gerçek backend kategorilerini çekiyoruz
   const categories = useSelector(selectCategories);
 
   const {
@@ -48,7 +49,6 @@ export const AddTransactionForm = ({ onClose }) => {
     handleSubmit,
     control,
     setValue,
-    watch,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(validationSchema),
@@ -61,103 +61,121 @@ export const AddTransactionForm = ({ onClose }) => {
     },
   });
 
-  // Stilize edilmiş değiştirici (Switch) tetikleyicisi
+  const currentType = useWatch({
+    control,
+    name: "type",
+  });
+
   const handleTypeChange = () => {
     const nextType = isExpense ? "INCOME" : "EXPENSE";
+
     setIsExpense(!isExpense);
     setValue("type", nextType);
+
     if (nextType === "INCOME") {
-      setValue("categoryId", ""); // Gelir ise kategori temizlenir
+      setValue("categoryId", "");
     }
   };
 
-  const onSubmit = (data) => {
-    // 1. Tutar Yönetimi: Gider ise negatif yap, gelir ise pozitif bırak
+  const onSubmit = async (data) => {
     const finalAmount =
       data.type === "EXPENSE"
         ? -Math.abs(Number(data.amount))
         : Math.abs(Number(data.amount));
 
-    // 2. Kategori Yönetimi (INCOME için Kritik Aşama):
     let finalCategoryId = data.categoryId;
 
     if (data.type === "INCOME") {
-      // Redux'taki 11 elemanlı listeden tipi "INCOME" olan kategoriyi otomatik buluyoruz
-      const incomeCategory = categories?.find((cat) => cat.type === "INCOME");
+      const incomeCategory = categories.find(
+        (category) => category.type === "INCOME",
+      );
 
-      // Eğer bulduysa resmi UUID'yi (063f1132-...) atıyoruz, yoksa kullanıcının girdiğini koruyoruz
-      if (incomeCategory) {
-        finalCategoryId = incomeCategory.id;
+      if (!incomeCategory) {
+        alert("Income kategorisi bulunamadı.");
+        return;
       }
+
+      finalCategoryId = incomeCategory.id;
     }
 
-    // API uyumluluğu için hazırlanan nihai veri paketi
     const payload = {
-      ...data,
+      type: data.type,
       amount: finalAmount,
-      categoryId: finalCategoryId, // Otomatik olarak resmi Income UUID'si yerleştirildi
+      categoryId: finalCategoryId,
+      comment: data.comment,
       transactionDate: data.transactionDate.toISOString(),
     };
 
-    // Backend'e istek gönderme anı
-    dispatch(addTransaction(payload))
-      .unwrap()
-      .then(() => {
-        // İstek başarılı: Sayfa yenilenmeden Redux listesi güncellenir ve modal kapanır
-        onClose();
-      })
-      .catch((backendError) => {
-        // Backend hata döndürürse hata mesajını basar, verileri silmez
-        alert(`İşlem Başarısız: ${backendError}`);
-      });
+    try {
+      await dispatch(addTransaction(payload)).unwrap();
+      onClose();
+    } catch (backendError) {
+      alert(`İşlem Başarısız: ${backendError}`);
+    }
   };
-  const currentType = watch("type");
+
+  const expenseCategories = categories.filter(
+    (category) => category.type === "EXPENSE",
+  );
 
   return (
     <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
-      {/* STİLİZE EDİLMİŞ DEĞİŞTİRİCİ (SWITCH TOGGLE) */}
       <div className={css.switchContainer}>
         <span
-          className={`${css.switchLabel} ${!isExpense ? css.activeIncome : ""}`}
+          className={`${css.switchLabel} ${
+            !isExpense ? css.activeIncome : ""
+          }`}
         >
           Income
         </span>
-        <div className={css.switchBase} onClick={handleTypeChange}>
-          {/* isExpense false olduğunda toggleIncome sınıfı çalışacak ve buton sola (Gelir'e) kayacak */}
-          <div
-            className={`${css.switchToggle} ${isExpense ? css.toggleExpense : css.toggleIncome}`}
+
+        <button
+          type="button"
+          className={css.switchBase}
+          onClick={handleTypeChange}
+          aria-label="İşlem türünü değiştir"
+        >
+          <span
+            className={`${css.switchToggle} ${
+              isExpense ? css.toggleExpense : css.toggleIncome
+            }`}
           >
             {isExpense ? "-" : "+"}
-          </div>
-        </div>
+          </span>
+        </button>
+
         <span
-          className={`${css.switchLabel} ${isExpense ? css.activeExpense : ""}`}
+          className={`${css.switchLabel} ${
+            isExpense ? css.activeExpense : ""
+          }`}
         >
           Expense
         </span>
       </div>
 
-      {/* GİDER İSE KATEGORİ SEÇİM ALANI */}
       {currentType === "EXPENSE" && (
         <div className={css.fieldGroup}>
-          <select className={css.selectInput} {...register("categoryId")}>
+          <select
+            className={css.selectInput}
+            {...register("categoryId")}
+          >
             <option value="">Kategori Seçiniz</option>
 
-            {/* Gerçek kategorileri haritalandırıyoruz */}
-            {categories &&
-              categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
+            {expenseCategories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
           </select>
+
           {errors.categoryId && (
-            <p className={css.errorText}>{errors.categoryId.message}</p>
+            <p className={css.errorText}>
+              {errors.categoryId.message}
+            </p>
           )}
         </div>
       )}
 
-      {/* TUTAR VE TARİH YAN YANA ALANLAR */}
       <div className={css.rowFields}>
         <div className={css.fieldGroup}>
           <input
@@ -167,13 +185,15 @@ export const AddTransactionForm = ({ onClose }) => {
             className={css.input}
             {...register("amount")}
           />
+
           {errors.amount && (
-            <p className={css.errorText}>{errors.amount.message}</p>
+            <p className={css.errorText}>
+              {errors.amount.message}
+            </p>
           )}
         </div>
 
         <div className={css.fieldGroup}>
-          {/* React Datepicker Entegrasyonu */}
           <Controller
             control={control}
             name="transactionDate"
@@ -186,13 +206,15 @@ export const AddTransactionForm = ({ onClose }) => {
               />
             )}
           />
+
           {errors.transactionDate && (
-            <p className={css.errorText}>{errors.transactionDate.message}</p>
+            <p className={css.errorText}>
+              {errors.transactionDate.message}
+            </p>
           )}
         </div>
       </div>
 
-      {/* YORUM ALANI */}
       <div className={css.fieldGroup}>
         <textarea
           placeholder="Comment"
@@ -200,17 +222,24 @@ export const AddTransactionForm = ({ onClose }) => {
           className={css.textarea}
           {...register("comment")}
         />
+
         {errors.comment && (
-          <p className={css.errorText}>{errors.comment.message}</p>
+          <p className={css.errorText}>
+            {errors.comment.message}
+          </p>
         )}
       </div>
 
-      {/* AKSİYON BUTONLARI */}
       <div className={css.formActions}>
         <button type="submit" className={css.addBtn}>
           Add
         </button>
-        <button type="button" className={css.cancelBtn} onClick={onClose}>
+
+        <button
+          type="button"
+          className={css.cancelBtn}
+          onClick={onClose}
+        >
           Cancel
         </button>
       </div>
