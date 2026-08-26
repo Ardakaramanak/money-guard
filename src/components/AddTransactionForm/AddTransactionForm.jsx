@@ -4,6 +4,8 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
+import { MdOutlineCalendarMonth } from "react-icons/md";
+import { IoClose } from "react-icons/io5"; // Kapatma ikonu için eklendi
 import "react-datepicker/dist/react-datepicker.css";
 
 import { addTransaction } from "../../redux/transactions/operations";
@@ -119,130 +121,126 @@ export const AddTransactionForm = ({ onClose }) => {
   );
 
   return (
-    <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
-      <div className={css.switchContainer}>
-        <span
-          className={`${css.switchLabel} ${
-            !isExpense ? css.activeIncome : ""
-          }`}
-        >
-          Income
-        </span>
+    <div className={css.formContainer}>
+      {/* Mor alanın içinde sağ üstte kalacak Çarpı Butonu */}
+      <button type="button" className={css.closeBtn} onClick={onClose}>
+        <IoClose size={24} />
+      </button>
 
-        <button
-          type="button"
-          className={css.switchBase}
-          onClick={handleTypeChange}
-          aria-label="İşlem türünü değiştir"
-        >
+      {/* Mor alanın içindeki Ortalanmış Başlık */}
+      <h2 className={css.modalTitle}>Add transaction</h2>
+
+      <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
+        {/* Switch Başlangıcı */}
+        <div className={css.switchContainer}>
           <span
-            className={`${css.switchToggle} ${
-              isExpense ? css.toggleExpense : css.toggleIncome
+            className={`${css.switchLabel} ${
+              !isExpense ? css.activeIncome : ""
             }`}
           >
-            {isExpense ? "-" : "+"}
+            Income
           </span>
-        </button>
 
-        <span
-          className={`${css.switchLabel} ${
-            isExpense ? css.activeExpense : ""
-          }`}
-        >
-          Expense
-        </span>
-      </div>
-
-      {currentType === "EXPENSE" && (
-        <div className={css.fieldGroup}>
-          <select
-            className={css.selectInput}
-            {...register("categoryId")}
+          <button
+            type="button"
+            className={css.switchBase}
+            onClick={handleTypeChange}
+            aria-label="İşlem türünü değiştir"
           >
-            <option value="">Kategori Seçiniz</option>
+            <span
+              className={`${css.switchToggle} ${
+                isExpense ? css.toggleExpense : css.toggleIncome
+              }`}
+            >
+              {isExpense ? "-" : "+"}
+            </span>
+          </button>
 
-            {expenseCategories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-
-          {errors.categoryId && (
-            <p className={css.errorText}>
-              {errors.categoryId.message}
-            </p>
-          )}
-        </div>
-      )}
-
-      <div className={css.rowFields}>
-        <div className={css.fieldGroup}>
-          <input
-            type="number"
-            step="any"
-            placeholder="0.00"
-            className={css.input}
-            {...register("amount")}
-          />
-
-          {errors.amount && (
-            <p className={css.errorText}>
-              {errors.amount.message}
-            </p>
-          )}
+          <span
+            className={`${css.switchLabel} ${
+              isExpense ? css.activeExpense : ""
+            }`}
+          >
+            Expense
+          </span>
         </div>
 
-        <div className={css.fieldGroup}>
-          <Controller
-            control={control}
-            name="transactionDate"
-            render={({ field }) => (
-              <DatePicker
-                className={css.input}
-                selected={field.value}
-                onChange={(date) => field.onChange(date)}
-                dateFormat="dd.MM.yyyy"
-              />
+        {/* Dinamik Kategori Seçimi */}
+        {currentType === "EXPENSE" && (
+          <div className={css.fieldGroupFull}>
+            <select className={css.selectInput} {...register("categoryId")}>
+              <option value="">Kategori Seçiniz</option>
+              {expenseCategories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+            {errors.categoryId && (
+              <p className={css.errorText}>{errors.categoryId.message}</p>
             )}
-          />
+          </div>
+        )}
 
-          {errors.transactionDate && (
-            <p className={css.errorText}>
-              {errors.transactionDate.message}
-            </p>
+        {/* Tutar ve Tarih Alanı */}
+        <div className={css.rowFields}>
+          <div className={css.fieldGroup}>
+            <input
+              type="number"
+              step="any"
+              placeholder="0.00"
+              className={`${css.input} ${css.amountInput}`}
+              {...register("amount")}
+            />
+            {errors.amount && (
+              <p className={css.errorText}>{errors.amount.message}</p>
+            )}
+          </div>
+
+          <div className={css.fieldGroupRelative}>
+            <Controller
+              control={control}
+              name="transactionDate"
+              render={({ field }) => (
+                <DatePicker
+                  className={css.input}
+                  selected={field.value}
+                  onChange={(date) => field.onChange(date)}
+                  dateFormat="dd.MM.yyyy"
+                  wrapperClassName={css.datePickerWrapper}
+                />
+              )}
+            />
+            <MdOutlineCalendarMonth className={css.calendarIcon} size={20} />
+            {errors.transactionDate && (
+              <p className={css.errorText}>{errors.transactionDate.message}</p>
+            )}
+          </div>
+        </div>
+
+        {/* Açıklama Alanı */}
+        <div className={css.fieldGroupFull}>
+          <input
+            type="text"
+            placeholder="Comment"
+            className={css.input}
+            {...register("comment")}
+          />
+          {errors.comment && (
+            <p className={css.errorText}>{errors.comment.message}</p>
           )}
         </div>
-      </div>
 
-      <div className={css.fieldGroup}>
-        <textarea
-          placeholder="Comment"
-          rows="3"
-          className={css.textarea}
-          {...register("comment")}
-        />
-
-        {errors.comment && (
-          <p className={css.errorText}>
-            {errors.comment.message}
-          </p>
-        )}
-      </div>
-
-      <div className={css.formActions}>
-        <button type="submit" className={css.addBtn}>
-          Add
-        </button>
-
-        <button
-          type="button"
-          className={css.cancelBtn}
-          onClick={onClose}
-        >
-          Cancel
-        </button>
-      </div>
-    </form>
+        {/* Aksiyon Butonları */}
+        <div className={css.formActions}>
+          <button type="submit" className={css.addBtn}>
+            ADD
+          </button>
+          <button type="button" className={css.cancelBtn} onClick={onClose}>
+            CANCEL
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };

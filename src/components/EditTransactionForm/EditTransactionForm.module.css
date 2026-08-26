@@ -1,97 +1,241 @@
-.editTransactionForm {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+:global(.modal),
+:global(.modal-content),
+:global(.react-modal-content),
+:global([class*="modalContent"]),
+:global([class*="modalContainer"]),
+:global([class*="Modal-paper"]),
+:global([class*="modalBox"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Ana Mor Kapsayıcı Kutu */
+.formContainer {
+  position: relative;
   width: 100%;
-}
-
-.formField {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  text-align: left;
-}
-
-.formField label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #000000;
-}
-
-.formField input,
-.formField textarea {
-  padding: 10px 14px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  font-size: 15px;
-  color: #333333;
-  width: 100%;
+  max-width: 540px;
+  background: linear-gradient(135deg, #3f3875 0%, #2e265c 100%) !important;
+  padding: 40px 60px;
+  border-radius: 20px !important;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4) !important;
   box-sizing: border-box;
-  outline: none;
-  transition: border-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.formField input:focus,
-.formField textarea:focus {
-  border-color: #24cca7;
+/* Çarpı Kapatma Butonu */
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.formField input[type="number"]::-webkit-outer-spin-button,
-.formField input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.closeBtn:hover {
+  opacity: 1;
 }
 
-.formField input[type="number"] {
-  -moz-appearance: textfield;
+/* Form Düzeni */
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  width: 100%;
 }
 
-.formField textarea {
-  resize: vertical;
-  min-height: 70px;
+.modalTitle {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-family: "Poppins", sans-serif;
 }
 
+/* ==========================================================================
+   GÖRSELDEKİ "INCOME / EXPENSE" YAN YANA GÖSTERGE ALANI STİLLERİ
+   ========================================================================== */
+.typeIndicatorContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.typeLabel {
+  font-size: 16px;
+  font-weight: 700;
+  transition: color 0.3s;
+}
+
+.divider {
+  font-size: 18px;
+  color: #ffffff;
+  opacity: 0.4;
+}
+
+.activeIncome {
+  color: #ffb627 !important; /* Görseldeki sarı */
+}
+
+.activeExpense {
+  color: #ff6596 !important; /* Görseldeki pembe */
+}
+
+.inactiveLabel {
+  color: #ffffff !important;
+  opacity: 0.6; /* Seçili olmayan durumlar soluk durur */
+}
+
+/* ==========================================================================
+   INPUT ALANLARI (Altı Çizgili Şeffaf Tasarım)
+   ========================================================================== */
+.rowFields {
+  display: flex;
+  width: 100%;
+  gap: 32px;
+}
+
+.fieldGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldGroupRelative {
+  composes: fieldGroup;
+  position: relative;
+}
+
+.fieldGroupFull {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4) !important;
+  padding: 10px 0 !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  outline: none !important;
+  transition: border-bottom-color 0.2s;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.input:focus {
+  border-bottom-color: #ffffff !important;
+}
+
+.amountInput {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   REACT-DATEPICKER SIFIRLAMA
+   ========================================================================== */
+.datePickerWrapper {
+  width: 100% !important;
+}
+
+.datePickerWrapper :global(.react-datepicker-wrapper),
+.datePickerWrapper :global(.react-datepicker__input-container) {
+  width: 100% !important;
+}
+
+.datePickerWrapper :global(.react-datepicker__input-container input) {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4) !important;
+  padding: 10px 0 !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  outline: none !important;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.datePickerWrapper :global(.react-datepicker__input-container input:focus) {
+  border-bottom-color: #ffffff !important;
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 4px;
+  top: 12px;
+  color: #ae7be3 !important;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   BUTONLAR (SAVE - CANCEL)
+   ========================================================================== */
 .formActions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 15px;
   width: 100%;
-}
-
-.saveBtn,
-.cancelBtn {
-  padding: 13px;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
+  gap: 20px;
+  margin-top: 10px;
 }
 
 .saveBtn {
-  background-color: #24cca7;
-  color: #ffffff;
-  box-shadow: 0px 6px 15px rgba(36, 204, 167, 0.2);
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(90deg, #ffb627 0%, #ca4ab2 100%) !important;
+  border: none !important;
+  border-radius: 25px !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
 }
 
 .saveBtn:hover {
-  background-color: #1eb393;
-  transform: translateY(-1px);
+  opacity: 0.9;
 }
 
 .cancelBtn {
-  background-color: transparent;
-  color: #4a56e2;
-  border: 1px solid #4a56e2;
+  width: 100%;
+  height: 50px;
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 25px !important;
+  color: #52478a !important;
+  font-size: 18px !important;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
 }
 
 .cancelBtn:hover {
-  background-color: rgba(74, 86, 226, 0.05);
-  transform: translateY(-1px);
+  background-color: #f3f4f6 !important;
 }
