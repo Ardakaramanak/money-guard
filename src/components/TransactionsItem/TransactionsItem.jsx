@@ -4,6 +4,7 @@ import { deleteTransaction } from "../../redux/transactions/operations";
 import { ModalEditTransaction } from "../ModalEditTransaction/ModalEditTransaction";
 import css from "./TransactionsItem.module.css";
 import { selectCategories } from "../../redux/finance/selectors";
+import { BsPencil } from "react-icons/bs";
 
 export const TransactionsItem = ({ transaction, viewType }) => {
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ export const TransactionsItem = ({ transaction, viewType }) => {
               className={css.editIconBtn}
               onClick={openEditModal}
             >
-              ✏️ button
+              <BsPencil className={css.pencilIcon} />
             </button>
           </td>
           <td>
@@ -91,37 +92,36 @@ export const TransactionsItem = ({ transaction, viewType }) => {
           className={`${css.mobileCard} ${isIncome ? css.incomeBorder : css.expenseBorder}`}
         >
           <div className={css.cardLine}>
-            <span>Tarih</span>
-            <span>{new Date(transactionDate).toLocaleDateString()}</span>
-          </div>
-          <div className={css.cardLine}>
-            <span>Tür</span>
-            <span style={{ color: typeColor }}>
-              {isIncome ? "INCOME" : "EXPENSE"}
+            <span>Date</span>
+            <span>
+              {new Date(transactionDate).toLocaleDateString("tr-TR", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "2-digit",
+              })}
             </span>
           </div>
           <div className={css.cardLine}>
-            <span>Kategori</span>
+            <span>Type</span>
+            <span>{isIncome ? "+" : "-"}</span>
+          </div>
+          <div className={css.cardLine}>
+            <span>Category</span>
             <span>{categoryName}</span>
           </div>
           <div className={css.cardLine}>
-            <span>Yorum</span>
-            <span>{comment || "-"}</span>
+            <span>Comment</span>
+            <span className={css.commentText}>{comment || "-"}</span>
           </div>
           <div className={css.cardLine}>
-            <span>Tutar</span>
+            <span>Sum</span>
             <span style={{ color: typeColor, fontWeight: "bold" }}>
-              {isIncome ? amount : `-${amount}`}
+              {Number(amount).toFixed(2)}
             </span>
           </div>
+
+          {/* Görseldeki gibi Delete solda gradyanlı, Edit sağda kalem şeklinde */}
           <div className={css.cardActionsRow}>
-            <button
-              type="button"
-              className={css.editIconBtnMobile}
-              onClick={openEditModal}
-            >
-              ✏️ button
-            </button>
             <button
               type="button"
               className={css.deleteBtnMobile}
@@ -129,8 +129,16 @@ export const TransactionsItem = ({ transaction, viewType }) => {
             >
               Delete
             </button>
+            <button
+              type="button"
+              className={css.editIconBtnMobile}
+              onClick={openEditModal}
+            >
+              <BsPencil className={css.pencilIcon} /> Edit
+            </button>
           </div>
         </div>
+
         {isEditModalOpen && (
           <ModalEditTransaction
             transaction={transaction}

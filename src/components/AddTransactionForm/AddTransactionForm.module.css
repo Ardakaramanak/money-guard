@@ -1,163 +1,297 @@
+:global(.modal),
+:global(.modal-content),
+:global(.react-modal-content),
+:global([class*="modalContent"]),
+:global([class*="modalContainer"]),
+:global([class*="Modal-paper"]),
+:global([class*="modalBox"]) {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Ana Mor Kapsayıcı Kutu (Başlık, Çarpı ve Form artık bunun içinde) */
+.formContainer {
+  position: relative;
+  width: 100%;
+  max-width: 540px;
+  background: linear-gradient(135deg, #3f3875 0%, #2e265c 100%) !important;
+  padding: 40px 60px;
+  border-radius: 20px !important;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4) !important;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Form İç Yapısı */
 .form {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  align-items: center;
+  gap: 40px;
   width: 100%;
 }
 
-/* Stilize Değiştirici (Switch / Toggle) Yapısı */
+/* ==========================================================================
+   YENİ EKLENEN İÇ BAŞLIK VE ÇARPI BUTONU STİLLERİ
+   ========================================================================== */
+.closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  opacity: 0.6;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeBtn:hover {
+  opacity: 1;
+}
+
+.modalTitle {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 40px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ==========================================================================
+   ÖZEL SWITCH (INCOME / EXPENSE) STİLLERİ
+   ========================================================================== */
 .switchContainer {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   margin-bottom: 10px;
 }
 
 .switchLabel {
   font-size: 16px;
   font-weight: 700;
-  color: #e0e0e0;
-  transition: color 0.2s ease;
+  color: #ffffff !important;
+  opacity: 0.6;
+  transition:
+    color 0.3s,
+    opacity 0.3s;
 }
 
 .activeIncome {
-  color: #24cca7;
+  color: #ffb627 !important;
+  opacity: 1;
 }
+
 .activeExpense {
-  color: #ff6b6b;
+  color: #ff6596 !important;
+  opacity: 1;
 }
 
 .switchBase {
+  position: relative;
   width: 80px;
   height: 40px;
-  border: 1px solid #e0e0e0;
-  border-radius: 30px;
-  position: relative;
+  background-color: #ffffff !important;
+  border-radius: 30px !important;
+  border: none !important;
   cursor: pointer;
-  background-color: #ffffff;
+  outline: none;
 }
 
 .switchToggle {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
   position: absolute;
-  top: -3px;
+  top: -2px;
+  height: 44px;
+  width: 44px;
+  border-radius: 50% !important;
   display: flex;
-  justify-content: center;
   align-items: center;
-  color: #ffffff;
-  font-size: 24px;
-  font-weight: bold;
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-.toggleExpense {
-  left: 38px;
-  background-color: #ff6b6b; /* Mercan */
+  justify-content: center;
+  color: #ffffff !important;
+  font-size: 28px;
+  font-weight: 300;
+  transition:
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.3s;
 }
 
 .toggleIncome {
   left: -2px;
-  background-color: #24cca7; /* Turuncu/Yeşil standardı */
+  background: linear-gradient(135deg, #ffb627 0%, #ff9f00 100%) !important;
+  box-shadow: 0px 4px 10px rgba(255, 160, 0, 0.4);
+  transform: translateX(0) !important;
 }
 
-/* Giriş Alanları Grupları */
-.fieldGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  width: 100%;
+.toggleExpense {
+  left: -2px;
+  background: linear-gradient(135deg, #ff6596 0%, #ff477e 100%) !important;
+  box-shadow: 0px 4px 10px rgba(255, 71, 126, 0.4);
+  transform: translateX(40px) !important;
 }
 
+/* ==========================================================================
+   INPUT / SELECT ALANLARI
+   ========================================================================== */
 .rowFields {
   display: flex;
-  gap: 20px;
   width: 100%;
+  gap: 32px;
 }
 
-@media screen and (max-width: 767px) {
-  .rowFields {
-    flex-direction: column;
-    gap: 24px;
-  }
+.fieldGroup {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.fieldGroupRelative {
+  composes: fieldGroup;
+  position: relative;
+}
+
+.fieldGroupFull {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .input,
-.selectInput,
-.textarea {
-  width: 100%;
-  padding: 8px 14px;
-  border: none;
-  border-bottom: 1px solid #e0e0e0;
-  font-size: 16px;
-  color: #000000;
-  outline: none;
+.selectInput {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4) !important;
+  padding: 10px 0 !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  outline: none !important;
+  transition: border-bottom-color 0.2s;
   box-sizing: border-box;
-  background-color: transparent;
-  transition: border-color 0.2s ease;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
 }
 
 .input:focus,
-.selectInput:focus,
-.textarea:focus {
-  border-bottom-color: #24cca7;
+.selectInput:focus {
+  border-bottom-color: #ffffff !important;
 }
 
-.textarea {
-  resize: none;
+.amountInput {
+  text-align: center;
+  font-weight: 600;
 }
 
-/* Hata Metni */
+.selectInput {
+  cursor: pointer;
+}
+
+.selectInput option {
+  background-color: #2e265c !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   REACT-DATEPICKER SIFIRLAMA
+   ========================================================================== */
+.datePickerWrapper {
+  width: 100% !important;
+}
+
+.datePickerWrapper :global(.react-datepicker-wrapper),
+.datePickerWrapper :global(.react-datepicker__input-container) {
+  width: 100% !important;
+}
+
+.datePickerWrapper :global(.react-datepicker__input-container input) {
+  width: 100% !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.4) !important;
+  padding: 10px 0 !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  outline: none !important;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.datePickerWrapper :global(.react-datepicker__input-container input:focus) {
+  border-bottom-color: #ffffff !important;
+}
+
+.calendarIcon {
+  position: absolute;
+  right: 4px;
+  top: 12px;
+  color: #ae7be3 !important;
+  pointer-events: none;
+  z-index: 2;
+}
+
 .errorText {
-  color: #ff4d4f;
+  color: #ff6596 !important;
   font-size: 12px;
-  margin: 2px 0 0 4px;
+  margin: 6px 0 0 0;
   text-align: left;
-  font-weight: 500;
 }
 
-/* Buton Düzeni */
+/* ==========================================================================
+   BUTONLAR (ADD - CANCEL)
+   ========================================================================== */
 .formActions {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  width: 100%;
+  gap: 20px;
   margin-top: 10px;
 }
 
-.addBtn,
-.cancelBtn {
-  padding: 13px;
-  border: none;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  width: 100%;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-}
-
 .addBtn {
-  background-color: #24cca7;
-  color: #ffffff;
-  box-shadow: 0px 6px 15px rgba(36, 204, 167, 0.2);
+  width: 100%;
+  height: 50px;
+  background: linear-gradient(90deg, #ffb627 0%, #ca4ab2 100%) !important;
+  border: none !important;
+  border-radius: 25px !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
 }
 
 .addBtn:hover {
-  background-color: #1eb393;
+  opacity: 0.9;
 }
 
 .cancelBtn {
-  background-color: transparent;
-  color: #4a56e2;
-  border: 1px solid #4a56e2;
+  width: 100%;
+  height: 50px;
+  background: #ffffff !important;
+  border: none !important;
+  border-radius: 25px !important;
+  color: #52478a !important;
+  font-size: 18px !important;
+  letter-spacing: 1px;
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
 }
 
 .cancelBtn:hover {
-  background-color: rgba(74, 86, 226, 0.05);
+  background-color: #f3f4f6 !important;
 }

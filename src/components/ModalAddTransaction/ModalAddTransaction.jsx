@@ -1,36 +1,31 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { AddTransactionForm } from "../AddTransactionForm/AddTransactionForm";
-import css from "./ModalAddTransaction.module.css";
+import css from "./ModalAddTransaction.module.css"; // Dosya isminiz farklıysa güncelleyin
 
 export const ModalAddTransaction = ({ onClose }) => {
-  // Escape tuşu dinleyicisi
+  // ESC tuşuna basınca modalın kapanmasını sağlayan fonksiyon
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.code === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden"; // Arka plan kaymasını engelle
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
-    };
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [onClose]);
 
-  // Arka plan (Overlay) tıklama kontrolü
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) onClose();
+  // Arka plana (backdrop) tıklayınca modalın kapanmasını sağlayan fonksiyon
+  const handleBackdropClick = (e) => {
+    if (e.currentTarget === e.target) {
+      onClose();
+    }
   };
 
   return (
-    <div className={css.modalOverlay} onClick={handleOverlayClick}>
-      <div className={css.modalContent}>
-        <button type="button" className={css.modalCloseBtn} onClick={onClose}>
-          &times;
-        </button>
-        <h2 className={css.modalTitle}>İşlem Ekle</h2>
-        <AddTransactionForm onClose={onClose} />
-      </div>
+    <div className={css.backdrop} onClick={handleBackdropClick}>
+      {/* 
+        Mükerrer siyah başlık şeridi ve dışarıdaki butonlar tamamen temizlendi.
+        Sadece içerideki mor kutu çağrılıyor.
+      */}
+      <AddTransactionForm onClose={onClose} />
     </div>
   );
 };

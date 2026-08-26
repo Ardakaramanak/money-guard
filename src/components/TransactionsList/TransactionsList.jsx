@@ -15,19 +15,11 @@ export const TransactionsList = () => {
   const error = useSelector(selectTransactionsError);
 
   if (isLoading) {
-    return (
-      <p className={css.transactionsLoading}>
-        İşlemler yükleniyor...
-      </p>
-    );
+    return <p className={css.transactionsLoading}>İşlemler yükleniyor...</p>;
   }
 
   if (error) {
-    return (
-      <p className={css.transactionsError}>
-        Hata oluştu: {error}
-      </p>
-    );
+    return <p className={css.transactionsError}>Hata oluştu: {error}</p>;
   }
 
   if (!transactions || transactions.length === 0) {
@@ -43,13 +35,13 @@ export const TransactionsList = () => {
       <table className={css.transactionsTable}>
         <thead>
           <tr>
-            <th>Tarih</th>
-            <th>Tür</th>
-            <th>Kategori</th>
-            <th>Yorum</th>
-            <th>Tutar</th>
-            <th>Düzenle</th>
-            <th>Aksiyon</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Category</th>
+            <th>Comment</th>
+            <th>Sum</th>
+            <th></th>
+            <th></th>
           </tr>
         </thead>
 

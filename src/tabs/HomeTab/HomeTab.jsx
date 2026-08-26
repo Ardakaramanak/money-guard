@@ -32,7 +32,7 @@ const HomeTab = () => {
   }
 
   return (
-    <section style={{ position: "relative", minHeight: "100%" }}>
+    <section style={{ width: "100%", overflowX: "hidden", display: "block" }}>
       <TransactionsList />
       <ButtonAddTransactions />
     </section>
