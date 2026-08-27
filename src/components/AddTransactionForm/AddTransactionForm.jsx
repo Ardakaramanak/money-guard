@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import toast from "react-hot-toast";
 import * as Yup from "yup";
 import DatePicker from "react-datepicker";
 import { MdOutlineCalendarMonth } from "react-icons/md";
-import { IoClose } from "react-icons/io5"; // Kapatma ikonu için eklendi
+import { IoClose } from "react-icons/io5";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { addTransaction } from "../../redux/transactions/operations";
@@ -93,7 +94,7 @@ export const AddTransactionForm = ({ onClose }) => {
       );
 
       if (!incomeCategory) {
-        alert("Income kategorisi bulunamadı.");
+        toast.error("Gelir (Income) kategorisi bulunamadı.");
         return;
       }
 
@@ -108,12 +109,20 @@ export const AddTransactionForm = ({ onClose }) => {
       transactionDate: data.transactionDate.toISOString(),
     };
 
-    try {
-      await dispatch(addTransaction(payload)).unwrap();
-      onClose();
-    } catch (backendError) {
-      alert(`İşlem Başarısız: ${backendError}`);
-    }
+    // Redux dispatch işlemi ve backend yanıt süreçleri toast.promise ile yönetiliyor
+    toast
+      .promise(dispatch(addTransaction(payload)).unwrap(), {
+        loading: "İşlem kaydediliyor...",
+        success: "İşlem başarıyla eklendi! 💰",
+        error: (err) =>
+          `İşlem Başarısız: ${err || "Bilinmeyen bir hata oluştu."}`,
+      })
+      .then(() => {
+        onClose(); // İşlem tam olarak başarıya ulaştığında modal kapatılır
+      })
+      .catch((backendError) => {
+        console.error("İşlem ekleme hatası:", backendError);
+      });
   };
 
   const expenseCategories = categories.filter(
@@ -122,16 +131,12 @@ export const AddTransactionForm = ({ onClose }) => {
 
   return (
     <div className={css.formContainer}>
-      {/* Mor alanın içinde sağ üstte kalacak Çarpı Butonu */}
       <button type="button" className={css.closeBtn} onClick={onClose}>
         <IoClose size={24} />
       </button>
-
-      {/* Mor alanın içindeki Ortalanmış Başlık */}
       <h2 className={css.modalTitle}>Add transaction</h2>
 
       <form className={css.form} onSubmit={handleSubmit(onSubmit)}>
-        {/* Switch Başlangıcı */}
         <div className={css.switchContainer}>
           <span
             className={`${css.switchLabel} ${
@@ -165,7 +170,6 @@ export const AddTransactionForm = ({ onClose }) => {
           </span>
         </div>
 
-        {/* Dinamik Kategori Seçimi */}
         {currentType === "EXPENSE" && (
           <div className={css.fieldGroupFull}>
             <select className={css.selectInput} {...register("categoryId")}>
@@ -182,7 +186,6 @@ export const AddTransactionForm = ({ onClose }) => {
           </div>
         )}
 
-        {/* Tutar ve Tarih Alanı */}
         <div className={css.rowFields}>
           <div className={css.fieldGroup}>
             <input
@@ -218,7 +221,6 @@ export const AddTransactionForm = ({ onClose }) => {
           </div>
         </div>
 
-        {/* Açıklama Alanı */}
         <div className={css.fieldGroupFull}>
           <input
             type="text"
@@ -231,7 +233,6 @@ export const AddTransactionForm = ({ onClose }) => {
           )}
         </div>
 
-        {/* Aksiyon Butonları */}
         <div className={css.formActions}>
           <button type="submit" className={css.addBtn}>
             ADD

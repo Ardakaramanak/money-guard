@@ -11,7 +11,6 @@
   box-shadow: none !important;
 }
 
-/* Ana Mor Kapsayıcı Kutu (Başlık, Çarpı ve Form artık bunun içinde) */
 .formContainer {
   position: relative;
   width: 100%;
@@ -35,9 +34,6 @@
   width: 100%;
 }
 
-/* ==========================================================================
-   YENİ EKLENEN İÇ BAŞLIK VE ÇARPI BUTONU STİLLERİ
-   ========================================================================== */
 .closeBtn {
   position: absolute;
   top: 20px;
@@ -67,9 +63,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* ==========================================================================
-   ÖZEL SWITCH (INCOME / EXPENSE) STİLLERİ
-   ========================================================================== */
 .switchContainer {
   display: flex;
   align-items: center;
@@ -139,9 +132,6 @@
   transform: translateX(40px) !important;
 }
 
-/* ==========================================================================
-   INPUT / SELECT ALANLARI
-   ========================================================================== */
 .rowFields {
   display: flex;
   width: 100%;
@@ -202,9 +192,6 @@
   color: #ffffff !important;
 }
 
-/* ==========================================================================
-   REACT-DATEPICKER SIFIRLAMA
-   ========================================================================== */
 .datePickerWrapper {
   width: 100% !important;
 }
@@ -247,9 +234,6 @@
   text-align: left;
 }
 
-/* ==========================================================================
-   BUTONLAR (ADD - CANCEL)
-   ========================================================================== */
 .formActions {
   display: flex;
   flex-direction: column;

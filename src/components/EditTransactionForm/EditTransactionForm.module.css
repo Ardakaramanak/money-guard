@@ -11,7 +11,6 @@
   box-shadow: none !important;
 }
 
-/* Ana Mor Kapsayıcı Kutu */
 .formContainer {
   position: relative;
   width: 100%;
@@ -65,9 +64,6 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* ==========================================================================
-   GÖRSELDEKİ "INCOME / EXPENSE" YAN YANA GÖSTERGE ALANI STİLLERİ
-   ========================================================================== */
 .typeIndicatorContainer {
   display: flex;
   align-items: center;
@@ -89,21 +85,18 @@
 }
 
 .activeIncome {
-  color: #ffb627 !important; /* Görseldeki sarı */
+  color: #ffb627 !important;
 }
 
 .activeExpense {
-  color: #ff6596 !important; /* Görseldeki pembe */
+  color: #ff6596 !important;
 }
 
 .inactiveLabel {
   color: #ffffff !important;
-  opacity: 0.6; /* Seçili olmayan durumlar soluk durur */
+  opacity: 0.6;
 }
 
-/* ==========================================================================
-   INPUT ALANLARI (Altı Çizgili Şeffaf Tasarım)
-   ========================================================================== */
 .rowFields {
   display: flex;
   width: 100%;
@@ -153,9 +146,6 @@
   font-weight: 600;
 }
 
-/* ==========================================================================
-   REACT-DATEPICKER SIFIRLAMA
-   ========================================================================== */
 .datePickerWrapper {
   width: 100% !important;
 }
@@ -191,9 +181,6 @@
   z-index: 2;
 }
 
-/* ==========================================================================
-   BUTONLAR (SAVE - CANCEL)
-   ========================================================================== */
 .formActions {
   display: flex;
   flex-direction: column;

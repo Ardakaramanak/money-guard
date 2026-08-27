@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { EditTransactionForm } from "../EditTransactionForm/EditTransactionForm";
-import css from "./ModalEditTransaction.module.css"; // CSS Modülü yüklendi
+import css from "./ModalEditTransaction.module.css";
 
 export const ModalEditTransaction = ({ transaction, onClose }) => {
   useEffect(() => {

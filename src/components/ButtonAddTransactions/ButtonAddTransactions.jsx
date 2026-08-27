@@ -10,7 +10,6 @@ export const ButtonAddTransactions = () => {
 
   return (
     <>
-      {/* Ekranın sağ altına sabitlenen, üzerinde "+" simgesi olan buton */}
       <button
         type="button"
         className={css.addTransactionBtn}
