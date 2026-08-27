@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { AddTransactionForm } from "../AddTransactionForm/AddTransactionForm";
-import css from "./ModalAddTransaction.module.css"; // Dosya isminiz farklıysa güncelleyin
+import css from "./ModalAddTransaction.module.css";
 
 export const ModalAddTransaction = ({ onClose }) => {
   // ESC tuşuna basınca modalın kapanmasını sağlayan fonksiyon
@@ -21,10 +21,6 @@ export const ModalAddTransaction = ({ onClose }) => {
 
   return (
     <div className={css.backdrop} onClick={handleBackdropClick}>
-      {/* 
-        Mükerrer siyah başlık şeridi ve dışarıdaki butonlar tamamen temizlendi.
-        Sadece içerideki mor kutu çağrılıyor.
-      */}
       <AddTransactionForm onClose={onClose} />
     </div>
   );

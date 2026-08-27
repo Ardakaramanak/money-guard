@@ -7,7 +7,6 @@
   background-color: rgba(255, 255, 255, 0.03);
 }
 
-/* Veri Hücreleri */
 .desktopRow td {
   padding: 14px 10px;
   font-size: 14px;
@@ -19,19 +18,17 @@
   text-overflow: ellipsis;
 }
 
-/* Hücre içi hizalamaları üst başlıklarla eşitleme */
 .desktopRow td:nth-child(2) {
   text-align: center;
-} /* Type ortala */
+}
 .desktopRow td:nth-child(5) {
   text-align: right;
-} /* Sum sağa yasla */
+}
 .desktopRow td:nth-child(6),
 .desktopRow td:nth-child(7) {
-  text-align: center; /* Butonları hücre içinde ortala */
+  text-align: center;
 }
 
-/* Masaüstü Düzenleme (Kalem) Butonu */
 .editIconBtn {
   background: transparent;
   border: none;
@@ -40,7 +37,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%; /* Hücreye tam oturması için */
+  width: 100%;
 }
 
 .pencilIcon {
@@ -48,7 +45,6 @@
   font-size: 16px;
 }
 
-/* Masaüstü Silme (Delete) Butonu */
 .deleteBtn {
   background: linear-gradient(
     45deg,
@@ -71,9 +67,6 @@
   opacity: 0.9;
 }
 
-/* ==========================================================================
-   MOBİL GÖRÜNÜM STİLLERİ (Görseldeki harika kart tasarımı için)
-   ========================================================================== */
 .mobileCard {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 8px;

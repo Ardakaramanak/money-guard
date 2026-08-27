@@ -14,8 +14,8 @@ const initialState = {
     incomeSummary: 0,
     expenseSummary: 0,
     periodTotal: 0,
-    year: new Date().getFullYear(), // Varsayılan olarak mevcut yılı atayabiliriz
-    month: new Date().getMonth() + 1, // Varsayılan olarak mevcut ayı atayabiliriz
+    year: new Date().getFullYear(),
+    month: new Date().getMonth() + 1,
   },
   isLoading: false,
   error: null,
@@ -48,7 +48,7 @@ const transactionsSlice = createSlice({
       .addCase(addTransaction.pending, handlePending)
       .addCase(addTransaction.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.items.push(action.payload); // Yeni eklenen işlemi listeye push et
+        state.items.push(action.payload);
       })
       .addCase(addTransaction.rejected, handleRejected)
 

@@ -1,6 +1,4 @@
 import { createSelector } from "@reduxjs/toolkit";
-
-// 1. Temel (Raw) Seçiciler
 // Bu seçiciler store'daki verileri doğrudan arayüze taşır.
 export const selectTransactions = (state) => state.transactions?.items || [];
 export const selectTransactionsLoading = (state) =>

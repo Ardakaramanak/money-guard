@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
 import DatePicker from "react-datepicker";
 import { MdOutlineCalendarMonth } from "react-icons/md";
-import { IoClose } from "react-icons/io5"; // Kapatma butonu eklendi
+import { IoClose } from "react-icons/io5";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { updateTransaction } from "../../redux/transactions/operations";
@@ -34,13 +35,18 @@ export const EditTransactionForm = ({ transaction, onClose }) => {
       amount: finalAmount,
     };
 
-    dispatch(updateTransaction(updatedData))
-      .unwrap()
+    toast
+      .promise(dispatch(updateTransaction(updatedData)).unwrap(), {
+        loading: "İşlem güncelleniyor...",
+        success: "İşlem başarıyla güncellendi! 📝",
+        error: (err) =>
+          `Güncelleme başarısız: ${err || "Bilinmeyen bir hata oluştu."}`,
+      })
       .then(() => {
-        onClose();
+        onClose(); // İstek başarılı olduğunda modal kapatılır
       })
       .catch((error) => {
-        alert("Güncelleme sırasında bir hata oluştu: " + error);
+        console.error("Güncelleme hatası:", error);
       });
   };
 
@@ -48,7 +54,6 @@ export const EditTransactionForm = ({ transaction, onClose }) => {
 
   return (
     <div className={css.formContainer}>
-      {/* Görseldeki gibi mor kutunun içine dahil edilen Çarpı Kapatma Butonu */}
       <button
         type="button"
         className={css.closeBtn}
@@ -57,11 +62,7 @@ export const EditTransactionForm = ({ transaction, onClose }) => {
       >
         <IoClose size={24} />
       </button>
-
-      {/* Düzenleme Başlığı */}
       <h2 className={css.modalTitle}>Edit transaction</h2>
-
-      {/* Görseldeki Yan Yana "Income / Expense" Gösterge Yapısı */}
       <div className={css.typeIndicatorContainer}>
         <span
           className={`${css.typeLabel} ${isIncome ? css.activeIncome : css.inactiveLabel}`}
@@ -77,7 +78,6 @@ export const EditTransactionForm = ({ transaction, onClose }) => {
       </div>
 
       <form className={css.form} onSubmit={handleSubmit}>
-        {/* Tutar ve Tarih Alanı (Yan Yana) */}
         <div className={css.rowFields}>
           <div className={css.fieldGroup}>
             <input
@@ -104,7 +104,6 @@ export const EditTransactionForm = ({ transaction, onClose }) => {
           </div>
         </div>
 
-        {/* Açıklama Alanı */}
         <div className={css.fieldGroupFull}>
           <input
             type="text"
@@ -116,7 +115,6 @@ export const EditTransactionForm = ({ transaction, onClose }) => {
           />
         </div>
 
-        {/* Aksiyon Butonları */}
         <div className={css.formActions}>
           <button type="submit" className={css.saveBtn}>
             SAVE

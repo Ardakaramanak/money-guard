@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 import { deleteTransaction } from "../../redux/transactions/operations";
 import { ModalEditTransaction } from "../ModalEditTransaction/ModalEditTransaction";
 import css from "./TransactionsItem.module.css";
@@ -15,26 +16,33 @@ export const TransactionsItem = ({ transaction, viewType }) => {
 
   const { id, transactionDate, type, comment, amount, categoryId, category } =
     transaction;
-  // 2. Dolu olan ID anahtarını seçin
+
   const targetedCategoryId = categoryId || category;
 
-  // 3. Reaktif bulma mantığı: Eğer categories yüklenmişse arama yap, yoksa hata verme
+  //  Eğer categories yüklenmişse arama yap, yoksa hata verme
   const currentCategory =
     categories && categories.length > 0
       ? categories.find((cat) => cat.id === targetedCategoryId)
       : null;
 
-  // 4. Ekrana basılacak nihai metin kuralı
   const categoryName =
     type === "INCOME"
       ? "Gelir"
       : currentCategory
         ? currentCategory.name
         : "Yükleniyor...";
+
   const handleDelete = () => {
-    if (window.confirm("Bu işlemi silmek istediğinize emin misiniz?")) {
-      dispatch(deleteTransaction(id));
-    }
+    toast
+      .promise(dispatch(deleteTransaction(id)).unwrap(), {
+        loading: "İşlem siliniyor...",
+        success: "İşlem başarıyla silindi! 🗑️",
+        error: (err) =>
+          `Silme işlemi başarısız: ${err || "Bilinmeyen bir hata oluştu."}`,
+      })
+      .catch((error) => {
+        console.error("Silme hatası:", error);
+      });
   };
 
   const openEditModal = () => setIsEditModalOpen(true);
@@ -120,7 +128,6 @@ export const TransactionsItem = ({ transaction, viewType }) => {
             </span>
           </div>
 
-          {/* Görseldeki gibi Delete solda gradyanlı, Edit sağda kalem şeklinde */}
           <div className={css.cardActionsRow}>
             <button
               type="button"
